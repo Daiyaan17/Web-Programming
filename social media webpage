@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>230191601039</title>
+<link
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-
+beta3/css/all.min.css"
+rel="stylesheet"
+/>
+<style>
+body {
+font-family: Arial, sans-serif;
+background: #f4f4f4;
+margin: 0;
+padding: 20px;
+display: flex;
+flex-direction: column;
+align-items: center;
+}
+.instagram-header {
+display: flex;
+align-items: center;
+gap: 10px;
+font-weight: bold;
+font-size: 1.6rem;
+color: #e1306c;
+margin-bottom: 20px;
+user-select: none;
+}
+.instagram-header i {
+font-size: 2rem;
+}
+.container {
+max-width: 500px;
+width: 100%;
+background: #fff;
+border-radius: 12px;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+padding: 20px;
+}
+.profile-section {
+display: flex;
+align-items: center;
+gap: 12px;
+margin-bottom: 15px;
+}
+.profile-section img {
+width: 50px;
+height: 50px;
+border-radius: 50%;
+object-fit: cover;
+}
+.profile-section .username {
+font-weight: bold;
+font-size: 1.2rem;
+color: #333;
+}
+.image-container {
+width: 100%;
+height: 300px;
+overflow: hidden;
+border-radius: 10px;
+}
+.image-container img {
+width: 100%;
+height: 100%;
+object-fit: cover;
+display: none;
+}
+.image-container img.active {
+display: block;
+}
+.interaction {
+margin-top: 15px;
+display: flex;
+justify-content: space-around;
+align-items: center;
+}
+.interaction button {border: none;
+padding: 10px 20px;
+border-radius: 8px;
+cursor: pointer;
+font-size: 16px;
+background: #eee;
+transition: 0.3s;
+display: flex;
+align-items: center;
+gap: 8px;
+}
+.interaction button:hover {
+background: #ddd;
+}
+.interaction button.liked {
+color: #e1306c;
+font-weight: bold;
+}
+.comments-section {
+margin-top: 15px;
+border-top: 1px solid #ccc;
+padding-top: 10px;
+max-height: 150px;
+overflow-y: auto;
+font-size: 0.9rem;
+}
+.comments-section p {margin: 6px 0;
+border-bottom: 1px solid #eee;
+padding-bottom: 4px;
+}
+.time {
+margin-top: 15px;
+font-weight: bold;
+color: #333;
+}
+</style>
+</head>
+<body>
+<div class="instagram-header">
+<i class="fab fa-instagram"></i>
+<span>Instagram</span>
+</div>
+<div class="container">
+<div class="profile-section">
+<img
+src="profile.jpg"
+alt="Profile Picture"
+/>
+<div class="username">Nagul_og</div>
+</div>
+<div class="post">
+<div class="image-container">
+<img
+src="https://picsum.photos/id/1015/500/300"
+alt="post image"
+class="active"
+/>
+<img src="https://picsum.photos/id/1020/500/300" alt="post image" />
+<img src="https://picsum.photos/id/1025/500/300" alt="post image" />
+</div>
+<div class="interaction">
+<button class="like-btn">
+<i class="fas fa-thumbs-up"></i> Like <span class="likecount">0</span>
+</button>
+<button class="comment-btn">
+<i class="fas fa-comment"></i> Comment
+</button>
+</div>
+<div class="comments-section" style="display:none;"></div>
+<div class="time">
+Current Time: <span id="current-time"></span>
+</div>
+</div>
+</div>
+<script>
+function updateTime() {
+const currentTimeElement = document.getElementById("current-time");
+const now = new Date();
+const hours = now.getHours().toString().padStart(2, "0");
+const minutes = now.getMinutes().toString().padStart(2, "0");
+const seconds = now.getSeconds().toString().padStart(2, "0");
+currentTimeElement.textContent = `${hours}:${minutes}:${seconds}`;
+}
+updateTime();
+setInterval(updateTime, 30000);
+updateTime();
+setInterval(updateTime, 30000);
+const images = document.querySelectorAll(".image-container img");
+let index = 0;
+function changeImage() {
+images[index].classList.remove("active");
+index = (index + 1) % images.length;
+images[index].classList.add("active");
+}
+setInterval(changeImage, 5000);
+const likeBtn = document.querySelector(".like-btn");
+const likeCountSpan = likeBtn.querySelector(".like-count");
+let likes = 0;
+let liked = false;
+likeBtn.addEventListener("click", () => {
+liked = !liked;
+if (liked) {
+likes++;
+likeBtn.classList.add("liked");
+} else {
+likes--;
+likeBtn.classList.remove("liked");
+}
+likeCountSpan.textContent = likes;
+});
+const commentBtn = document.querySelector(".comment-btn");
+const commentsSection = document.querySelector(".comments-section");
+commentBtn.addEventListener("click", () => {
+const comment = prompt("Enter your comment:");
+if (comment && comment.trim() !== "") {
+const p = document.createElement("p");
+p.textContent = comment.trim();
+commentsSection.appendChild(p);
+commentsSection.style.display = "block";
+}
+});
+</script>
+</body>
+</html>

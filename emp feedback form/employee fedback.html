@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>230191601032</title>
+<link rel="stylesheet" href="feedback.css" />
+</head>
+<body>
+<div class="container">
+<h1>Employee Feedback</h1>
+<p>We value your honest, constructive feedback to improve our workplace.</p>
+<form id="feedbackForm">
+<label for="name">Name:</label>
+<input type="text" id="name" name="name" placeholder="Enter your name" />
+<label for="name">EMAIL:</label>
+<input type="email" id="EMAIL" name="name" placeholder="Enter your email" />
+<label for="department">Department:</label>
+<input type="text" id="department" name="department" placeholder="e.g. HR, IT"
+required />
+<label for="period">Review Period:</label>
+<input type="month" id="period" name="period" />
+<label>Overall Satisfaction:</label>
+<div class="rating-group">
+<input type="radio" id="star5" name="satisfaction" value="5" required />
+<label for="star5">5</label>
+<input type="radio" id="star4" name="satisfaction" value="4" />
+<label for="star4">4</label>
+<input type="radio" id="star3" name="satisfaction" value="3" />
+<label for="star3">3</label>
+<input type="radio" id="star2" name="satisfaction" value="2" />
+<label for="star2">2</label>
+<input type="radio" id="star1" name="satisfaction" value="1" /><label for="star1">1</label>
+</div>
+<label for="category">Feedback Category:</label>
+<select id="category" name="category" required>
+<option value="">Select</option>
+<option value="suggestion">Suggestion</option>
+<option value="complaint">Complaint</option>
+<option value="compliment">Compliment</option>
+<option value="other">Other</option>
+</select>
+<label for="feedback">Your Feedback:</label>
+<textarea id="feedback" name="feedback" rows="4" placeholder="Describe your
+feedback..." required></textarea>
+<label for="improvement">Suggested Improvements (optional):</label>
+<textarea id="improvement" name="improvement" rows="2" placeholder="What could
+we do better?"></textarea>
+<button type="submit">Submit Feedback</button>
+</form>
+<div id="confirmationMessage" class="hidden">
+<h2>Thank You For Your Feedback!</h2>
+<p>Your comments have been received and will help us improve your workplace
+experience.</p>
+</div>
+</div>
+<script>
+const form = document.getElementById('feedbackForm');
+const confirmation = document.getElementById('confirmationMessage');
+form.addEventListener('submit', function (event) {event.preventDefault();
+form.style.display = 'none';
+confirmation.classList.remove('hidden');
+});
+</script>
+</body>
+</html>

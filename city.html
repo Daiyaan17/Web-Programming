@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>230191601032</title>
+<style>
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+}
+#container {
+    max-width: 900px;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+#info {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    text-align: left;
+}
+iframe { border: none; border-radius: 8px; margin-top: 14px; }
+.back { margin-top: 12px; display:inline-block; }
+</style>
+</head>
+<body>
+<div id="container">
+    <h2 id="title" style="margin-top:6px; font-weight:normal; color:#333;">City</h2>
+
+    <!-- Google Maps iframe; src will be set by script based on query param -->
+    <iframe id="mapframe" width="800" height="450" src="" allowfullscreen="" loading="lazy"></iframe>
+
+    <div id="info">
+        <h2>Info</h2>
+        <p id="desc">Loading...</p>
+    </div>
+
+    <a class="back" href="embed map.html">&larr; Back</a>
+</div>
+
+<script>
+(function(){
+    // Parse query string for ?place=...
+    function qs(name) {
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)");
+        var results = regex.exec(window.location.href);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
+    var place = qs('place') || 'India';
+
+    // Map known places to an embed query and static description
+    var data = {
+        'Delhi': {
+            q: 'Delhi, India',
+            title: 'Delhi',
+            desc: '<p>Delhi is the capital territory of India and contains New Delhi, the capital of India. It is known for historical sites like the Red Fort, Qutub Minar, India Gate and Chandni Chowk market.</p>'
+        },
+        'Kolkata': {
+            q: 'Kolkata, India',
+            title: 'Kolkata',
+            desc: '<p>Kolkata (formerly Calcutta) is the capital of West Bengal. It is famous for Victoria Memorial, Howrah Bridge, Durga Puja, and its rich literary and cultural heritage.</p>'
+        },
+        'Tamil Nadu': {
+            q: 'Tamil Nadu, India',
+            title: 'Tamil Nadu',
+            desc: '<p>Tamil Nadu is a state in southern India known for temples (Madurai), Marina Beach in Chennai, classical dance and rich Dravidian architecture.</p>'
+        }
+    };
+
+    var info = data[place] || { q: place, title: place, desc: '<p>No static description available for this place.</p>' };
+
+    document.getElementById('title').textContent = info.title;
+    var iframe = document.getElementById('mapframe');
+    iframe.src = 'https://www.google.com/maps?q=' + encodeURIComponent(info.q) + '&output=embed';
+
+    document.getElementById('desc').innerHTML = info.desc + '<p><strong>Place:</strong> ' + info.title + '</p>';
+
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+body {
+background: #f5fafd;
+font-family: 'Segoe UI', Arial, sans-serif;
+margin: 0;
+}
+.container {
+max-width: 480px;
+margin: 3vw auto;
+background: #fff;
+padding: 2.5rem;
+border-radius: 12px;
+box-shadow: 0 2px 14px rgba(0, 0, 0, 0.09);
+}
+.logo-container {
+text-align: center;
+margin-bottom: 1rem;
+}
+.logo-container img {
+max-width: 150px;
+height: auto;
+object-fit: contain;
+border-radius: 8px;}
+h1 {
+color: #23ab5d;
+text-align: center;
+}
+form label {
+margin-top: 1em;
+display: block;
+color: #23ab5d;
+font-weight: 600;
+}
+input,
+select,
+textarea {
+width: 100%;
+padding: 0.8em;
+margin: 0.4em 0 1em 0;
+border-radius: 8px;
+border: 1px solid #bee6d2;
+box-sizing: border-box;
+}
+.rating-group {
+display: flex;
+flex-direction: row-reverse;
+justify-content: flex-start;
+gap: 0.5em;
+margin-bottom: 1em;
+align-items: center;}
+.rating-group input[type='radio'] {
+display: none;
+}
+.rating-group label {
+font-size: 1.2rem;
+color: #ccc;
+cursor: pointer;
+transition: color 0.2s;
+padding: 0 0.1em;
+order: -1;
+}
+.rating-group input[type='radio']:checked ~ label {
+color: #23ab5d;
+}
+.rating-group label:hover,
+.rating-group label:hover ~ label {
+color: #4ad97b;
+}
+button[type='submit'] {
+background: #23ab5d;
+color: #fff;
+border: none;
+padding: 1em;
+border-radius: 24px;
+width: 100%;
+font-size: 1.1em;
+cursor: pointer;
+transition: background 0.18s;}
+button[type='submit']:hover {
+background: #16914f;
+}
+.hidden {
+display: none;
+}
+#confirmationMessage {
+text-align: center;
+color: #23ab5d;
+margin-top: 2em;
+}

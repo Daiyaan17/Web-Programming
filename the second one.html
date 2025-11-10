@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Rounded Square Example</title>
+  <style>
+    /* Page centering */
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh; /* Full viewport height */
+      margin: 0;
+      background-color: #f0f0f0;
+    }
+
+    /* The square box */
+    .box {
+      width: 300px;
+      height: 300px;
+      background-color: lightblue;
+      border-radius: 20px; /* Rounded corners */
+      position: relative; /* So we can place text inside */
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    /* Heading inside the box */
+    .box h1 {
+      position: absolute;
+      top: 10px; /* Distance from top */
+      left: 50%;
+      transform: translateX(-50%); /* Center horizontally */
+      margin: 0;
+      font-size: 1.5rem;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="box">
+    <h1>My Heading</h1>
+  </div>
+
+</body>
+</html>

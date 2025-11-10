@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>230191601032</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f3f4f6;
+    }
+    button {
+      background-color: #ef4444;
+    }
+  </style>
+</head>
+<body class="p-4 sm:p-8">
+  <div class="max-w-4xl mx-auto">
+    <header class="text-center mb-10">
+      <h1 class="text-4xl font-bold text-gray-800">Encapsulated Image Carousels</h1>
+      <p class="text-gray-600 mt-2">
+        This page demonstrates two reusable 
+        <code class="bg-gray-200 text-sm p-1 rounded">&lt;image-carousel&gt;</code> components:
+        one for landscapes and one for cars.
+      </p>
+    </header>
+
+    <main class="space-y-12">
+      <!-- 🌄 LANDSCAPE CAROUSEL -->
+      <div>
+        <h2 class="text-2xl font-bold text-gray-700 mb-4">Landscape Carousel</h2>
+        <image-carousel>
+          <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=800&h=400&auto=format&fit=crop" alt="Beautiful mountain valley at sunrise">
+          <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=800&h=400&auto=format&fit=crop" alt="Calm ocean waves under sunset">
+          <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=800&h=400&auto=format&fit=crop" alt="Green hills and cloudy sky">
+          <img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=800&h=400&auto=format&fit=crop" alt="Snowy mountains with pine trees">
+        </image-carousel>
+      </div>
+
+      <!-- 🚗 CAR CAROUSEL -->
+      <div>
+        <h2 class="text-2xl font-bold text-gray-700 mb-4">Car Carousel</h2>
+        <image-carousel>
+          <img src="https://images.unsplash.com/photo-1502877338535-766e1452684a?q=80&w=800&h=400&auto=format&fit=crop" alt="Red sports car on a mountain road">
+          <img src="https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?q=80&w=800&h=400&auto=format&fit=crop" alt="Classic car parked by the beach">
+          <img src="https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?q=80&w=800&h=400&auto=format&fit=crop" alt="Luxury car interior dashboard">
+          <img src="https://images.unsplash.com/photo-1511919884226-fd3cad34687c?q=80&w=800&h=400&auto=format&fit=crop" alt="Sports car speeding on highway">
+        </image-carousel>
+      </div>
+    </main>
+  </div>
+
+  <!-- TEMPLATE FOR CUSTOM CAROUSEL COMPONENT -->
+  <template id="carousel-template">
+    <style>
+      .carousel-container {
+        position: relative;
+        overflow: hidden;
+        border-radius: 1rem;
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+      }
+      .carousel-track {
+        display: flex;
+        transition: transform 0.5s ease-in-out;
+      }
+      ::slotted(img) {
+        width: 100%;
+        flex-shrink: 0;
+        display: block;
+      }
+      .carousel-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: rgba(0,0,0,0.5);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        font-size: 24px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10;
+        transition: background-color 0.2s;
+      }
+      .carousel-btn:hover { background-color: rgba(0,0,0,0.8); }
+      .carousel-btn.prev { left: 1rem; }
+      .carousel-btn.next { right: 1rem; }
+      .nav-dots {
+        position: absolute;
+        bottom: 1rem;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 0.5rem;
+      }
+      .dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background-color: rgba(255,255,255,0.5);
+        cursor: pointer;
+        transition: background-color 0.2s;
+      }
+      .dot.active { background-color: rgba(255,255,255,1); }
+    </style>
+
+    <div class="carousel-container">
+      <div class="carousel-track">
+        <slot></slot>
+      </div>
+      <button class="carousel-btn prev">&#10094;</button>
+      <button class="carousel-btn next">&#10095;</button>
+      <div class="nav-dots"></div>
+    </div>
+  </template>
+
+  <script>
+    class ImageCarousel extends HTMLElement {
+      constructor() {
+        super();
+        this.attachShadow({ mode: 'open' })
+          .appendChild(document.getElementById('carousel-template').content.cloneNode(true));
+        this.track = this.shadowRoot.querySelector('.carousel-track');
+        this.dotsContainer = this.shadowRoot.querySelector('.nav-dots');
+        this.currentIndex = 0;
+        this.slideInterval = null;
+      }
+
+      connectedCallback() {
+        this.shadowRoot.querySelector('slot')
+          .addEventListener('slotchange', this.setup.bind(this));
+      }
+
+      setup() {
+        this.slides = this.shadowRoot.querySelector('slot').assignedElements();
+        if (this.slides.length === 0) return;
+
+        this.dotsContainer.innerHTML = this.slides
+          .map((_, i) => `<div class="dot" data-index="${i}"></div>`)
+          .join('');
+        this.dots = [...this.dotsContainer.children];
+
+        this.shadowRoot.querySelector('.next')
+          .addEventListener('click', () => this.changeSlide(1));
+        this.shadowRoot.querySelector('.prev')
+          .addEventListener('click', () => this.changeSlide(-1));
+
+        this.dotsContainer.addEventListener('click', e => {
+          if (e.target.classList.contains('dot')) {
+            this.changeSlide(null, Number(e.target.dataset.index));
+          }
+        });
+
+        this.addEventListener('mouseenter', () => clearInterval(this.slideInterval));
+        this.addEventListener('mouseleave', this.startAutoSlide.bind(this));
+
+        this.update();
+        this.startAutoSlide();
+      }
+
+      startAutoSlide() {
+        clearInterval(this.slideInterval);
+        this.slideInterval = setInterval(() => this.changeSlide(1), 3000);
+      }
+
+      changeSlide(direction, index) {
+        if (direction) {
+          this.currentIndex = (this.currentIndex + direction + this.slides.length) % this.slides.length;
+        } else {
+          this.currentIndex = index;
+        }
+        this.update();
+        if (document.body.contains(this)) this.startAutoSlide();
+      }
+
+      update() {
+        this.track.style.transform = `translateX(-${this.currentIndex * 100}%)`;
+        this.dots.forEach((dot, i) => dot.classList.toggle('active', i === this.currentIndex));
+      }
+    }
+
+    customElements.define('image-carousel', ImageCarousel);
+  </script>
+</body>
+</html>

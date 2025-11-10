@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>230191601032</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Online MCQ Test with Timer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        #timer {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: red;
+            text-align: right;
+        }
+        .question {
+            background-color: white;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .options {
+            margin-top: 10px;
+        }
+        .options label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        button:disabled {
+            background-color: #888;
+            cursor: not-allowed;
+        }
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        .question-review {
+            background-color: white;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .correct {
+            border-left: 5px solid green;
+        }
+        .incorrect {
+            border-left: 5px solid red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Online MCQ Test</h1>
+
+    <!-- Timer display -->
+    <div id="timer">Time Left: 02:00</div>
+
+    <form id="quizForm">
+        <div class="question" id="q1">
+            <p>1. Who is the President of India?</p>
+            <div class="options">
+                <label><input type="radio" name="q1" value="a"> Lebron James</label>
+                <label><input type="radio" name="q1" value="b"> Hillary Clinton</label>
+                <label><input type="radio" name="q1" value="c"> Droupadi Murmu</label>
+                <label><input type="radio" name="q1" value="d"> Mao Zedong</label>
+            </div>
+        </div>
+
+        <div class="question" id="q2">
+            <p>2. Which city is called the Detroit of Asia? </p>
+            <div class="options">
+                <label><input type="radio" name="q2" value="a"> Chennai</label>
+                <label><input type="radio" name="q2" value="b"> Dubai</label>
+                <label><input type="radio" name="q2" value="c"> Beijing</label>
+                <label><input type="radio" name="q2" value="d"> Doha</label>
+            </div>
+        </div>
+
+        <div class="question" id="q3">
+            <p>3. What is 2 + 2?</p>
+            <div class="options">
+                <label><input type="radio" name="q3" value="a"> 3</label>
+                <label><input type="radio" name="q3" value="b"> 4</label>
+                <label><input type="radio" name="q3" value="c"> 5</label>
+                <label><input type="radio" name="q3" value="d"> 6</label>
+            </div>
+        </div>
+
+        <div class="question" id="q4">
+            <p>4. Who wrote 'Pride and Prejudice'</p>
+            <div class="options">
+                <label><input type="radio" name="q4" value="a"> Charles Dickens</label>
+                <label><input type="radio" name="q4" value="b"> William Shakespeare</label>
+                <label><input type="radio" name="q4" value="c"> Jane Austen</label>
+                <label><input type="radio" name="q4" value="d"> Mark Twain</label>
+            </div>
+        </div>
+
+        <div class="question" id="q5">
+            <p>5. What is the largest ocean on Earth?</p>
+            <div class="options">
+                <label><input type="radio" name="q5" value="a"> Atlantic Ocean</label>
+                <label><input type="radio" name="q5" value="b"> Indian Ocean</label>
+                <label><input type="radio" name="q5" value="c"> Arctic Ocean</label>
+                <label><input type="radio" name="q5" value="d"> Pacific Ocean</label>
+            </div>
+        </div>
+
+        <button type="button" onclick="submitQuiz()">Submit Quiz</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+        // Timer setup
+        let timeLeft = 120; // seconds (2 minutes)
+        const timerDiv = document.getElementById('timer');
+
+        const countdown = setInterval(() => {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerDiv.textContent = `Time Left: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+            if (timeLeft === 0) {
+                clearInterval(countdown);
+                alert("Time's up! The quiz will now be submitted.");
+                submitQuiz();
+                disableQuiz();
+            }
+            timeLeft--;
+        }, 1000);
+
+        // Disable all inputs and submit button after quiz ends
+        function disableQuiz() {
+            document.querySelectorAll('input[type=radio]').forEach(input => input.disabled = true);
+            document.querySelector('button').disabled = true;
+        }
+
+        // Submit quiz, calculate score and show result
+        function submitQuiz() {
+            clearInterval(countdown);  // stop timer
+
+            const answers = {
+                q1: 'c', // Droupadi Murmu
+                q2: 'a', // Chennai
+                q3: 'b', // 4
+                q4: 'c', // Jane Austen
+                q5: 'd'  // Pacific Ocean
+            };
+
+            let score = 0;
+            const totalQuestions = Object.keys(answers).length;
+
+            for (let question in answers) {
+                const selected = document.querySelector(`input[name="${question}"]:checked`);
+                if (selected && selected.value === answers[question]) {
+                    score++;
+                }
+            }
+
+            document.getElementById('quizForm').style.display = 'none';
+
+            let resultHTML = `<h2>Your Score: ${score} out of ${totalQuestions}.`;
+            if (score === totalQuestions) {
+                resultHTML += ' Perfect! Well done!';
+            } else if (score >= totalQuestions * 0.8) {
+                resultHTML += ' Great job!';
+            } else if (score >= totalQuestions * 0.6) {
+                resultHTML += ' Good effort!';
+            } else {
+                resultHTML += ' Keep studying!';
+            }
+            resultHTML += '</h2><div class="review">';
+
+            for (let i = 1; i <= totalQuestions; i++) {
+                const qid = `q${i}`;
+                const questionDiv = document.getElementById(qid);
+                const questionText = questionDiv.querySelector('p').textContent;
+                const selected = document.querySelector(`input[name="${qid}"]:checked`);
+                const selectedValue = selected ? selected.value : null;
+                const correctValue = answers[qid];
+                const selectedLabel = selected ? selected.parentElement.textContent.trim() : 'No answer';
+                const correctLabel = questionDiv.querySelector(`input[value="${correctValue}"]`).parentElement.textContent.trim();
+                const isCorrect = selectedValue === correctValue;
+                resultHTML += `
+                    <div class="question-review ${isCorrect ? 'correct' : 'incorrect'}">
+                        <p><strong>${questionText}</strong></p>
+                        <p>Your answer: ${selectedLabel}</p>
+                        <p>Correct answer: ${correctLabel}</p>
+                    </div>
+                `;
+            }
+
+            resultHTML += '</div>';
+
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = resultHTML;
+
+            disableQuiz(); // disable inputs after submission
+        }
+    </script>
+</body>
+</html>
