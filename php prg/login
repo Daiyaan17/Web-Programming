@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>230191601009</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(120deg, #89f7fe, #66a6ff);
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .profile-card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 320px;
+            text-align: center;
+        }
+        .profile-card img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+        }
+        h2 {
+            color: #0078ff;
+            margin-bottom: 5px;
+        }
+        p {
+            margin: 5px 0;
+        }
+        #time {
+            margin-top: 15px;
+            font-weight: bold;
+            font-size: 18px;
+            color: #444;
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-card">
+        <?php
+            $name = "Dwaragesh C";
+            $email = "dwarageshc7203@gmail.com";
+            $age = 19;
+            $country = "India";
+        ?>
+        <img src="https://cdn-icons-png.flaticon.com/512/147/147144.png" alt="Profile Picture">
+        <h2><?php echo $name; ?></h2>
+        <p><strong>Email:</strong> <?php echo $email; ?></p>
+        <p><strong>Age:</strong> <?php echo $age; ?></p>
+        <p><strong>Country:</strong> <?php echo $country; ?></p>
+
+        <div id="time">Loading time...</div>
+    </div>
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString();
+            document.getElementById("time").textContent = "Current Time: " + timeString;
+        }
+        updateTime(); 
+        setInterval(updateTime, 1000); 
+    </script>
+</body>
+</html>
+
+
+

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>230191601032</title>
+  <style>
+    :root {
+      --primary: #007bff;
+      --primary-hover: #0056b3;
+      --text-muted: #666;
+      --card-bg: #fff;
+      --border: #e5e7eb;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #f5f6f8;
+      color: #111827;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 24px auto;
+      padding: 16px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 6px 24px rgba(0,0,0,0.06);
+      animation: fadeIn 0.6s ease-out;
+    }
+
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px;
+    }
+
+    .profile img {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--border);
+    }
+
+    .profile-info h3 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .image-container {
+      position: relative;
+      width: 100%;
+      height: 360px;
+      overflow: hidden;
+      background: #000;
+    }
+
+    .image-slide {
+      width: 300%;
+      height: 100%;
+      display: flex;
+      animation: slideImages 18s infinite;
+    }
+
+    .image-slide img {
+      width: 33.3333%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    @keyframes slideImages {
+      0%   { transform: translateX(0%); }
+      30%  { transform: translateX(0%); }
+      33%  { transform: translateX(-33.3333%); }
+      63%  { transform: translateX(-33.3333%); }
+      66%  { transform: translateX(-66.6666%); }
+      97%  { transform: translateX(-66.6666%); }
+      100% { transform: translateX(0%); }
+    }
+
+    .post {
+      text-align: center;
+    }
+
+    .interaction {
+      display: flex;
+      gap: 12px;
+      padding: 12px 16px 16px;
+      align-items: center;
+    }
+
+    button {
+      background: none;
+      border: none;
+      font-size: 16px;
+      color: var(--primary);
+      cursor: pointer;
+      padding: 6px 10px;
+      border-radius: 8px;
+      transition: color 0.2s ease, transform 0.15s ease, background-color 0.2s ease;
+    }
+
+    button:hover {
+      color: var(--primary-hover);
+      background: rgba(0,123,255,0.08);
+    }
+
+    .like-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .like-icon {
+      margin-right: 2px;
+    }
+
+    .time {
+      padding: 0 16px 16px;
+      font-size: 14px;
+      color: var(--text-muted);
+      text-align: left;
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(6px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes shake {
+      0%   { transform: translateX(0); }
+      25%  { transform: translateX(-4px); }
+      50%  { transform: translateX(4px); }
+      75%  { transform: translateX(-4px); }
+      100% { transform: translateX(0); }
+    }
+
+    .like-btn:active { animation: shake 0.4s ease-in-out; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="profile">
+        <img src="file:///Users/daiyaan/Desktop/test%201.avif" alt="Profile Picture" />
+        <div class="profile-info">
+          <h3>Dwaragesh C</h3>
+        </div>
+      </div>
+
+      <div class="post">
+        <div class="image-container">
+          <div class="image-slide">
+            <img src="file:///Users/daiyaan/Desktop/test%201.avif" alt="Post image 1" />
+            <img src="file:///Users/daiyaan/Desktop/test%201.avif" alt="Post image 2" />
+            <img src="file:///Users/daiyaan/Desktop/test%201.avif" alt="Post image 3" />
+          </div>
+        </div>
+
+        <div class="interaction">
+          <button class="like-btn" id="like-btn">
+            <span class="like-icon" aria-hidden="true">👍</span>
+            <span>Like</span>
+          </button>
+        </div>
+
+        <div class="time">
+          Current Time: <span id="current-time"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function updateTime() {
+      const currentTimeElement = document.getElementById("current-time");
+      const now = new Date();
+      const hours = now.getHours().toString().padStart(2, "0");
+      const minutes = now.getMinutes().toString().padStart(2, "0");
+      const seconds = now.getSeconds().toString().padStart(2, "0");
+      currentTimeElement.textContent = `${hours}:${minutes}:${seconds}`;
+    }
+    updateTime();
+    setInterval(updateTime, 1000);
+
+    // Optional: like state toggle (color change)
+    const likeBtn = document.getElementById("like-btn");
+    likeBtn?.addEventListener("click", () => {
+      const active = likeBtn.getAttribute("data-active") === "true";
+      likeBtn.setAttribute("data-active", String(!active));
+      likeBtn.style.color = active ? "var(--primary)" : "#e0245e"; // pink when liked
+    });
+  </script>
+</body>
+</html>
+

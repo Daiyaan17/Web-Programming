@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>230191601032 Keyframe animation</title>
+		<style>
+			body {
+				font-family: Arial, sans-serif;
+				background: #e6ecf0;
+				display: flex;
+				justify-content: center;
+				align-items: flex-start;
+				min-height: 100vh;
+				margin: 0;
+				padding: 20px;
+			}
+			.feed {
+				background: #fff;
+				width: 500px;
+				border-radius: 8px;
+				box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+				padding: 15px;
+			}
+			.tweet {
+				display: flex;
+				margin-bottom: 20px;
+			}
+			.tweet > img {
+				width: 50px;
+				height: 50px;
+				border-radius: 50%;
+				margin-right: 10px;
+			}
+			.tweet-content {
+				flex: 1;
+			}
+			.tweet-content strong {
+				display: block;
+				font-size: 14px;
+			}
+			.tweet-content span {
+				font-weight: normal;
+				color: gray;
+				font-size: 12px;
+			}
+			.tweet-content p {
+				margin: 5px 0;
+				font-size: 15px;
+			}
+			.post-container {
+				width: 100%;
+				max-width: 450px;
+				aspect-ratio: 1 / 1;
+				margin-top: 10px;
+				overflow: hidden;
+				border-radius: 12px;
+				position: relative;
+			}
+			.post-container img {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+				position: absolute;
+				top: 0;
+				left: 0;
+				opacity: 0;
+			}
+			.post-container img.active {
+				opacity: 1;
+			}
+			@keyframes fadeIn {
+				from { opacity: 0; }
+				to { opacity: 1; }
+			}
+			@keyframes slideIn {
+				from { transform: translateX(100%); opacity: 0; }
+				to { transform: translateX(0); opacity: 1; }
+			}
+			@keyframes zoomIn {
+				from { transform: scale(0.7); opacity: 0; }
+				to { transform: scale(1); opacity: 1; }
+			}
+			@keyframes rotateIn {
+				from { transform: rotate(180deg); opacity: 0; }
+				to { transform: rotate(0deg); opacity: 1; }
+			}
+			@keyframes flipIn {
+				from { transform: rotateY(90deg); opacity: 0; }
+				to { transform: rotateY(0); opacity: 1; }
+			}
+			@keyframes bounceIn {
+				0% { transform: scale(0.3); opacity: 0; }
+				50% { transform: scale(1.1); opacity: 1; }
+				70% { transform: scale(0.9); }
+				100% { transform: scale(1); }
+			}
+			.fadeIn { animation: fadeIn 1s forwards; }
+			.slideIn { animation: slideIn 1s forwards; }
+			.zoomIn { animation: zoomIn 1s forwards; }
+			.rotateIn { animation: rotateIn 1s forwards; }
+			.flipIn { animation: flipIn 1s forwards; }
+			.bounceIn { animation: bounceIn 1s forwards; }
+		</style>
+	</head>
+	<body>
+		<div class="feed">
+			<div class="tweet">
+				<img src="/Users/daiyaan/Desktop/F-16C_Ohio_ANG_in_flight_2003.webp" alt="Profile Pic">
+				<div class="tweet-content">
+					<strong>Mohammed Daiyaan <span>@1032 · now</span></strong>
+					<div class="post-container">
+						<img src="/Users/daiyaan/Desktop/Qutub_minar.jpeg" class="active fadeIn">
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>
+			const images = document.querySelectorAll(".post-container img");
+			const animations = [
+				"fadeIn",
+				"slideIn",
+				"zoomIn",
+				"rotateIn",
+				"flipIn",
+				"bounceIn"
+			];
+			let current = 0;
+			function changeImage() {
+				images[current].classList.remove("active", ...animations);
+				current = (current + 1) % images.length;
+				let anim = animations[Math.floor(Math.random() * animations.length)];
+				images[current].classList.add("active", anim);
+			}
+			setInterval(changeImage, 5000);
+		</script>
+	</body>
+</html>
